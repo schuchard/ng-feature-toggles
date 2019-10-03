@@ -1,5 +1,12 @@
 # NgFeatureToggles
 
+## Why
+
+- Code is always on the main branch. No long running out of sync feature branches.
+- Decouple features from deployment.
+- Control who see's what and when.
+- Control restrictions via url, API, local config.
+
 This project was generated with [Angular CLI](https://github.com/angular/angular-cli) version 8.3.4.
 
 ## Development server
