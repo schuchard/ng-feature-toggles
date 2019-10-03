@@ -1,6 +1,7 @@
 import { Directive, Input, TemplateRef, ViewContainerRef, OnInit, OnDestroy } from '@angular/core';
 import { Subscription } from 'rxjs';
 import { FeatureToggleService } from 'src/app/core/feature-toggle.service';
+import { map, distinctUntilChanged } from 'rxjs/operators';
 
 @Directive({ selector: '[appFeatureToggle]' })
 export class FeatureToggleDirective implements OnInit, OnDestroy {
@@ -16,13 +17,18 @@ export class FeatureToggleDirective implements OnInit, OnDestroy {
 
   ngOnInit() {
     this.subs.add(
-      this.featureToggleService.features$.subscribe(features => {
-        if (features && features[this.featureToggle]) {
-          this.viewContainer.createEmbeddedView(this.templateRef);
-        } else {
-          this.viewContainer.clear();
-        }
-      })
+      this.featureToggleService.features$
+        .pipe(
+          map((features: Record<string, boolean>) => features && features[this.featureToggle]),
+          distinctUntilChanged()
+        )
+        .subscribe(feature => {
+          if (feature) {
+            this.viewContainer.createEmbeddedView(this.templateRef);
+          } else {
+            this.viewContainer.clear();
+          }
+        })
     );
   }
 

@@ -305,6 +305,7 @@
   <span>Welcome</span>
   <div class="spacer"></div>
   <a
+    *appFeatureToggle="'twitter'"
     aria-label="Angular on twitter"
     target="_blank"
     rel="noopener"
@@ -339,8 +340,35 @@
 </div>
 
 <div class="content" role="main">
+  <div class="toggles">
+    <button
+      [ngClass]="{ active: toggles.contains('twitter') }"
+      (click)="toggles.update({ twitter: true })"
+    >
+      show twitter
+    </button>
+    <button
+      [ngClass]="{ active: !toggles.contains('twitter') }"
+      (click)="toggles.update({ twitter: false })"
+    >
+      hide twitter
+    </button>
+    <button
+      [ngClass]="{ active: toggles.contains('rocket') }"
+      (click)="toggles.update({ rocket: true })"
+    >
+      show rocket
+    </button>
+    <button
+      [ngClass]="{ active: !toggles.contains('rocket') }"
+      (click)="toggles.update({ rocket: false })"
+    >
+      hide rocket
+    </button>
+  </div>
+
   <!-- Highlight Card -->
-  <div class="card highlight-card card-small">
+  <div class="card highlight-card card-small" *ngIf="showRocket$ | async">
     <svg
       id="rocket"
       alt="Rocket Ship"

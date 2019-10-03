@@ -4,6 +4,7 @@ import { FeatureToggleDirective } from './feature-toggle/feature-toggle.directiv
 
 @NgModule({
   declarations: [FeatureToggleDirective],
+  exports: [FeatureToggleDirective],
   imports: [CommonModule],
 })
 export class SharedModule {}

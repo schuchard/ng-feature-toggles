@@ -31,11 +31,14 @@ export class FeatureToggleService {
     return this.featureMap[key];
   }
 
-  update(changes?: { [key: string]: any }) {
+  update(changes?: { [key: string]: any }, merge = true) {
     let fromLocalStorage: any;
 
     if (changes) {
-      this.window.localStorage.setItem(this.lsKey, JSON.stringify(changes));
+      this.window.localStorage.setItem(
+        this.lsKey,
+        JSON.stringify({ ...(merge && { ...this.featureMap }), ...changes })
+      );
     }
 
     try {
